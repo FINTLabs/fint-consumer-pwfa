@@ -2,6 +2,7 @@ package no.fint.consumer.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import no.fint.consumer.controller.dto.Dog
+import no.fint.consumer.event.Actions
 import no.fint.event.model.Event
 import no.fint.events.FintEvents
 import no.fint.model.relation.FintResource
