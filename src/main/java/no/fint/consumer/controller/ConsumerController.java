@@ -2,6 +2,7 @@ package no.fint.consumer.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import no.fint.consumer.controller.dto.Dog;
+import no.fint.consumer.event.Actions;
 import no.fint.event.model.Event;
 import no.fint.event.model.EventUtil;
 import no.fint.events.FintEvents;
