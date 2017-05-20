@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+  provider:
+   image: fint/provider:latest
+   ports:
+     - "8600:8080"
+   environment:
+    TZ: Europe/Oslo
+    server.context-path: /
+    springfox.title: "Play-With-FINT-Adapter Provider"
+    fint.events.orgIds: "pwfa.no"
+    fint.audit.mongo.hostname: fint-mongodb
+    fint.audit.mongo.databasename: fint-audit-pwfa
+    fint.events.env: pwfa
+    spring.profiles.active: pwfa
+   deploy:
+    replicas: 1
+    restart_policy:
+     condition: on-failure
+     delay: 5s
+     max_attempts: 3
+     window: 120s
+   networks:
+    - fint_shared
+    - fint_pwfa
+   depends_on:
+    - redis
+
+  consumer:
+   image: fint/pwfa-consumer:latest
+   ports:
+     - "8601:8080"
+   environment:
+    TZ: Europe/Oslo
+    server.context-path: /
+    springfox.title: "Play-With-FINT-Adapter Consumer"
+    fint.events.orgIds: "pwfa.no"
+    fint.audit.mongo.hostname: fint-mongodb
+    fint.audit.mongo.databasename: fint-audit-pwfa
+    fint.events.env: pwfa
+    spring.profiles.active: pwfa
+   deploy:
+    replicas: 1
+    restart_policy:
+     condition: on-failure
+     delay: 5s
+     max_attempts: 3
+     window: 120s
+   networks:
+    - fint_shared
+    - fint_pwfa
+   depends_on:
+    - redis
+    - provider
+
+  redis:
+    image: redis:3.0.7-alpine
+    environment:
+      TZ: Europe/Oslo
+    deploy:
+     replicas: 1
+     restart_policy:
+      condition: on-failure
+      delay: 5s
+      max_attempts: 3
+      window: 120s
+    networks:
+     - fint_pwfa
+
+networks:
+ fint_pwfa:
+  driver: overlay
+  external: false
+ fint_shared:
+  external: true

@@ -19,13 +19,13 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping(value = "/consumer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ConsumerController {
 
     @Autowired
     private FintEvents fintEvents;
 
-    @GetMapping("/dogs")
+    @GetMapping("dogs")
     public List<FintResource<Dog>> getAllDogs(@RequestHeader(value = Constants.HEADER_ORGID) String orgId,
                                               @RequestHeader(value = Constants.HEADER_CLIENT) String client) throws InterruptedException {
         Event<Void> event = new Event<>(orgId, Constants.SOURCE, Actions.GET_ALL_DOGS.name(), client);

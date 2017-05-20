@@ -37,7 +37,7 @@ class ConsumerControllerSpec extends MockMvcSpecification {
         def json = objectMapper.writeValueAsString(event)
 
         when:
-        def response = mockMvc.perform(get('/consumer/dogs')
+        def response = mockMvc.perform(get('/dogs')
                 .header(Constants.HEADER_ORGID, 'mock.no')
                 .header(Constants.HEADER_CLIENT, 'test')
         )
