@@ -26,7 +26,7 @@ apply plugin: 'jacoco'
 apply from: 'https://raw.githubusercontent.com/FINTlibs/fint-buildscripts/v1.0.9/version.gradle'
 jar {
     version = createVersion()
-    baseName = 'fint-consumer-skeleton'
+    baseName = 'fint-pwfa-consumer'
 }
 
 sourceCompatibility = 1.8
