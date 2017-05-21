@@ -1,4 +1,4 @@
-package no.fint.consumer.controller;
+package no.fint.consumer.event;
 
 import lombok.extern.slf4j.Slf4j;
 import no.fint.event.model.Event;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class Consumer {
+public class EventListener {
 
     public static final String TEMP_QUEUE_PREFIX = "pwfa-";
 

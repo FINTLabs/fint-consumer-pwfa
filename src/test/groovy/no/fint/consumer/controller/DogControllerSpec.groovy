@@ -1,11 +1,11 @@
 package no.fint.consumer.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import no.fint.consumer.controller.dto.Dog
 import no.fint.consumer.event.Actions
 import no.fint.event.model.Event
 import no.fint.events.FintEvents
 import no.fint.model.relation.FintResource
+import no.fint.pwfa.model.Dog
 import no.fint.test.utils.MockMvcSpecification
 import org.redisson.api.RBlockingQueue
 import org.springframework.test.web.servlet.MockMvc
@@ -13,8 +13,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 import java.util.concurrent.TimeUnit
 
-class ConsumerControllerSpec extends MockMvcSpecification {
-    private ConsumerController consumerController
+class DogControllerSpec extends MockMvcSpecification {
+    private DogController consumerController
     private FintEvents fintEvents
     private RBlockingQueue<Event<FintResource>> tempQueue
     private MockMvc mockMvc
@@ -25,7 +25,7 @@ class ConsumerControllerSpec extends MockMvcSpecification {
         fintEvents = Mock(FintEvents) {
             getTempQueue(_ as String) >> tempQueue
         }
-        consumerController = new ConsumerController(fintEvents: fintEvents)
+        consumerController = new DogController(fintEvents: fintEvents)
         mockMvc = MockMvcBuilders.standaloneSetup(consumerController).build()
         objectMapper = new ObjectMapper()
     }
@@ -33,7 +33,7 @@ class ConsumerControllerSpec extends MockMvcSpecification {
     def "Get all dogs"() {
         given:
         def event = new Event('mock.no', 'test', Actions.GET_ALL_DOGS.name(), 'test')
-        event.setData([FintResource.with(new Dog('Lykke', 'Springer'))])
+        event.setData([FintResource.with(new Dog('12345','Lykke', 'Springer'))])
         def json = objectMapper.writeValueAsString(event)
 
         when:
