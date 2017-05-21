@@ -33,7 +33,7 @@ class DogControllerSpec extends MockMvcSpecification {
     def "Get all dogs"() {
         given:
         def event = new Event('mock.no', 'test', Actions.GET_ALL_DOGS.name(), 'test')
-        event.setData([FintResource.with(new Dog('12345','Lykke', 'Springer'))])
+        event.setData([FintResource.with(new Dog('12345', 'Lykke', 'Springer'))])
         def json = objectMapper.writeValueAsString(event)
 
         when:
@@ -47,5 +47,16 @@ class DogControllerSpec extends MockMvcSpecification {
         1 * tempQueue.poll(1, TimeUnit.MINUTES) >> objectMapper.readValue(json, Event)
         response.andExpect(status().isOk())
                 .andExpect(jsonPath('$[0].resource.breed').value(equalTo('Springer')))
+    }
+
+    def "Return status code 500 if response event is null"() {
+        when:
+        def response = mockMvc.perform(get('/dogs')
+                .header(Constants.HEADER_ORGID, 'mock.no')
+                .header(Constants.HEADER_CLIENT, 'test'))
+
+        then:
+        1 * tempQueue.poll(1, TimeUnit.MINUTES) >> null
+        response.andExpect(status().isInternalServerError())
     }
 }

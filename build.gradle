@@ -58,7 +58,6 @@ dependencies {
     compile('no.fint:fint-events:0.1.19')
     compile('no.fint:fint-audit-mongo-plugin:0.0.13')
     compile('no.fint:fint-cache:0.0.3')
-    compile('no.fint:fint-dependencies:0.0.3')
     
     compile('org.projectlombok:lombok')
     compile("com.github.springfox.loader:springfox-loader:${springfoxLoaderVersion}")
