@@ -1,7 +1,4 @@
-# FINT Consumer Skeleton
-
-[![Build Status](https://travis-ci.org/FINTprosjektet/fint-consumer-skeleton.svg?branch=master)](https://travis-ci.org/FINTprosjektet/fint-consumer-skeleton)
-[![Coverage Status](https://coveralls.io/repos/github/FINTprosjektet/fint-consumer-skeleton/badge.svg?branch=master)](https://coveralls.io/github/FINTprosjektet/fint-consumer-skeleton?branch=master)
+# Play-With-FINT-Adapter
 
 ## Setup
 
