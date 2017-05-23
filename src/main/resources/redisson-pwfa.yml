@@ -1,5 +1,0 @@
-singleServerConfig:
-  retryAttempts: 50
-  retryInterval: 3000
-  reconnectionTimeout: 6000
-  address: "redis://redis:6379"

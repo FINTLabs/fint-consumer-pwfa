@@ -10,10 +10,10 @@ services:
     server.context-path: /
     springfox.title: "Play-With-FINT-Adapter Provider"
     fint.events.orgIds: "pwfa.no"
+    fint.events.env: pwfa
+    fint.events.redisson.addresses: "redis://redis:6379"
     fint.audit.mongo.hostname: fint-mongodb
     fint.audit.mongo.databasename: fint-audit-pwfa
-    fint.events.env: pwfa
-    spring.profiles.active: pwfa
    deploy:
     replicas: 1
     restart_policy:
@@ -36,10 +36,10 @@ services:
     server.context-path: /
     springfox.title: "Play-With-FINT-Adapter Consumer"
     fint.events.orgIds: "pwfa.no"
+    fint.events.env: pwfa
+    fint.events.redisson.addresses: "redis://redis:6379"
     fint.audit.mongo.hostname: fint-mongodb
     fint.audit.mongo.databasename: fint-audit-pwfa
-    fint.events.env: pwfa
-    spring.profiles.active: pwfa
    deploy:
     replicas: 1
     restart_policy:
