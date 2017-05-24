@@ -1,3 +1,4 @@
 springfox:
  title: 'Play-with-FINT-adapter'
  version: '@version@'
+ endpoints: true
