@@ -25,6 +25,9 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping(value = "/dogs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class DogController {
 
+    private final TypeReference<List<FintResource<Dog>>> dogTypeReference = new TypeReference<List<FintResource<Dog>>>() {
+    };
+
     @Autowired
     private FintEvents fintEvents;
 
@@ -57,8 +60,7 @@ public class DogController {
         if (receivedEvent == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("The request timed out before a response was received from the adapter");
         } else {
-            List<FintResource<Dog>> fintResources = EventUtil.convertEventData(receivedEvent, new TypeReference<List<FintResource<Dog>>>() {
-            });
+            List<FintResource<Dog>> fintResources = EventUtil.convertEventData(receivedEvent, dogTypeReference);
             return ResponseEntity.ok(fintResources);
         }
     }
