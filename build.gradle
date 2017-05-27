@@ -51,7 +51,7 @@ repositories {
 
 dependencies {
     compile('no.fint:fint-relation-model:0.0.22')
-    compile('no.fint:fint-event-model:0.0.18')
+    compile('no.fint:fint-event-model:0.0.19')
     compile('no.fint:fint-pwfa-model:0.0.1')
 
     compile('no.fint:fint-relations:0.0.20')
