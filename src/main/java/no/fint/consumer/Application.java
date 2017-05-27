@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableFintEvents
 @EnableFintAudit
 @EnableScheduling
-@EnableSpringfox(includeControllers = {FintEventsController.class})
+@EnableSpringfox(includeControllers = FintEventsController.class)
 @SpringBootApplication
 public class Application {
 
