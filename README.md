@@ -1,5 +1,7 @@
 # Play-With-FINT-Adapter
 
+[![Build Status](https://travis-ci.org/FINTprosjektet/fint-pwfa-consumer.svg?branch=master)](https://travis-ci.org/FINTprosjektet/fint-pwfa-consumer)
+
 ## Setup
 
 The `SubscriberService` is added to the project to receive events.  
