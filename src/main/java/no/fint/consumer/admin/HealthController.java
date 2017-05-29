@@ -32,6 +32,5 @@ public class HealthController {
             event.setMessage("No response from adapter");
             return event;
         }
-
     }
 }

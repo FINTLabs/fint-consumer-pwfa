@@ -45,7 +45,7 @@ public class ConsumerEventUtil {
         event.setStatus(Status.DOWNSTREAM_QUEUE);
         fintAuditService.audit(event);
 
-        log.info("Sending replyTo event {} to {}", event.getAction(), event.getOrgId());
+        log.info("Sending event {} to {}", event.getAction(), event.getOrgId());
         fintEvents.sendDownstream(event.getOrgId(), event);
         event.setStatus(Status.SENT_TO_CLIENT);
         fintAuditService.audit(event);
