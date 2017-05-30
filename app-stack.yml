@@ -7,9 +7,9 @@ services:
      - "8600:8080"
    environment:
     TZ: Europe/Oslo
-    server.context-path: /
     springfox.title: "Play-With-FINT-Adapter Provider"
     fint.events.orgIds: "pwfa.no"
+    fint.events.component: pwfa
     fint.events.env: pwfa
     fint.events.redisson.addresses: "redis://redis:6379"
     fint.audit.mongo.hostname: fint-mongodb
@@ -36,6 +36,7 @@ services:
     server.context-path: /
     springfox.title: "Play-With-FINT-Adapter Consumer"
     fint.events.orgIds: "pwfa.no"
+    fint.events.component: pwfa
     fint.events.env: pwfa
     fint.events.redisson.addresses: "redis://redis:6379"
     fint.audit.mongo.hostname: fint-mongodb

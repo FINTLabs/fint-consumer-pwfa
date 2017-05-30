@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@CrossOrigin
 @FintSelf(type = Owner.class, property = "id")
 @RestController
 @RequestMapping(value = "/owners", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
