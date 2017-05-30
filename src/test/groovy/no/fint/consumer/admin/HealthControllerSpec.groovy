@@ -36,7 +36,7 @@ class HealthControllerSpec extends MockMvcSpecification {
 
         then:
         1 * consumerEventUtil.healthCheck(_ as Event) >> Optional.empty()
-        response.andExpect(status().isOk())
+        response.andExpect(status().is5xxServerError())
                 .andExpect(jsonPath('$.action').value(equalTo("HEALTH")))
                 .andExpect(jsonPath('$.message').value(equalTo("No response from adapter")))
     }
