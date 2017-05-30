@@ -4,7 +4,7 @@ import no.fint.consumer.controller.Constants;
 import no.fint.consumer.event.ConsumerEventUtil;
 import no.fint.event.model.DefaultActions;
 import no.fint.event.model.Event;
-import no.fint.event.model.Health;
+import no.fint.event.model.health.Health;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;

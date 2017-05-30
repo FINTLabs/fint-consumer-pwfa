@@ -3,7 +3,7 @@ package no.fint.consumer.event;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.audit.FintAuditService;
 import no.fint.event.model.Event;
-import no.fint.event.model.Health;
+import no.fint.event.model.health.Health;
 import no.fint.event.model.Status;
 import no.fint.events.FintEvents;
 import no.fint.events.FintEventsHealth;
