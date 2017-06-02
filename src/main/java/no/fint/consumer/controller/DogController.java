@@ -50,6 +50,7 @@ public class DogController {
                                  @RequestHeader(value = Constants.HEADER_ORGID) String orgId,
                                  @RequestHeader(value = Constants.HEADER_CLIENT) String client) throws InterruptedException {
         Event<Void> event = new Event<>(orgId, Constants.SOURCE, Actions.GET_DOG.name(), client);
+        event.setQuery(id);
         fintEvents.sendDownstream(orgId, event);
 
         RBlockingQueue<Event<FintResource>> tempQueue = fintEvents.getTempQueue(EventListener.TEMP_QUEUE_PREFIX + event.getCorrId());
