@@ -14,7 +14,7 @@ buildscript {
 
 plugins {
     id 'com.github.kt3k.coveralls' version '2.8.1'
-    id 'com.github.ben-manes.versions' version '0.14.0'
+    id 'com.github.ben-manes.versions' version '0.15.0'
 }
 
 apply plugin: 'java'
@@ -51,11 +51,11 @@ repositories {
 
 dependencies {
     compile('no.fint:fint-relation-model:0.0.22')
-    compile('no.fint:fint-event-model:0.0.21')
+    compile('no.fint:fint-event-model:0.0.23')
     compile('no.fint:fint-pwfa-model:0.0.1')
 
     compile('no.fint:fint-relations:0.0.20')
-    compile('no.fint:fint-events:0.1.30')
+    compile('no.fint:fint-events:0.1.31')
     compile('no.fint:fint-audit-mongo-plugin:0.0.13')
     compile('no.fint:fint-cache:0.0.3')
     
