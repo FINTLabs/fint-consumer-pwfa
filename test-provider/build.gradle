@@ -1,0 +1,47 @@
+buildscript {
+    apply from: 'https://raw.githubusercontent.com/FINTlibs/fint-buildscripts/v1.0.11/dependencies.gradle'
+    ext {
+        springBootVersion = springBootVersion
+    }
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+plugins {
+    id 'com.github.ben-manes.versions' version '0.15.0'
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    jcenter()
+    maven {
+        url "http://dl.bintray.com/fint/maven"
+    }
+}
+
+dependencies {
+    compile('no.fint:fint-relation-model:0.0.22')
+    compile('no.fint:fint-administrasjon-model-java:1.0.1')
+    compile('no.fint:fint-event-model:0.0.23')
+
+    compile('no.fint:fint-events:0.1.31')
+
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compileOnly('org.projectlombok:lombok')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = gradleVersion
+}

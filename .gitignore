@@ -1,29 +1,9 @@
+npm-debug.log
+.idea
 .gradle
-/build/
-!gradle/wrapper/gradle-wrapper.jar
-/classes/
+build/
+classes/
+out
 .DS_Store
 node_modules
-npm-debug.log
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-
-### IntelliJ IDEA ###
-.idea
-*.iws
 *.iml
-*.ipr
-
-### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/

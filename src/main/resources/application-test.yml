@@ -1,5 +1,6 @@
 fint:
  events:
+  test-mode: true
   orgIds: pwfa.no
   queue-endpoint-enabled: true
 
