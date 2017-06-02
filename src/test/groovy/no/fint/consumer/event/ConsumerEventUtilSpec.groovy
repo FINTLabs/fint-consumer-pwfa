@@ -6,7 +6,7 @@ import no.fint.events.FintEvents
 import no.fint.events.FintEventsHealth
 import spock.lang.Specification
 
-class EventListenerEventUtilSpec extends Specification {
+class ConsumerEventUtilSpec extends Specification {
     private ConsumerEventUtil consumerEventUtil
     private FintEvents fintEvents
     private FintAuditService fintAuditService
