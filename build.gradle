@@ -55,7 +55,7 @@ dependencies {
     compile('no.fint:fint-pwfa-model:0.0.1')
 
     compile('no.fint:fint-relations:0.0.20')
-    compile('no.fint:fint-events:0.1.31')
+    compile('no.fint:fint-events:0.1.32')
     compile('no.fint:fint-audit-mongo-plugin:0.0.13')
     compile('no.fint:fint-cache:0.0.3')
     

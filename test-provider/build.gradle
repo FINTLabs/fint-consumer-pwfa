@@ -1,5 +1,5 @@
 buildscript {
-    apply from: 'https://raw.githubusercontent.com/FINTlibs/fint-buildscripts/v1.0.11/dependencies.gradle'
+    apply from: 'https://raw.githubusercontent.com/FINTlibs/fint-buildscripts/v1.0.12/dependencies.gradle'
     ext {
         springBootVersion = springBootVersion
     }
@@ -34,7 +34,7 @@ dependencies {
     compile('no.fint:fint-administrasjon-model-java:1.0.1')
     compile('no.fint:fint-event-model:0.0.23')
 
-    compile('no.fint:fint-events:0.1.31')
+    compile('no.fint:fint-events:0.1.32')
 
     compile('org.springframework.boot:spring-boot-starter-web')
     compileOnly('org.projectlombok:lombok')
