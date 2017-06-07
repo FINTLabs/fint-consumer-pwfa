@@ -61,6 +61,7 @@ dependencies {
     
     compile('org.projectlombok:lombok')
     compile("com.github.springfox.loader:springfox-loader:${springfoxLoaderVersion}")
+    compile('no.fint:fint-springfox-extension:0.0.1')
 
     compile('org.springframework.boot:spring-boot-starter-web')
     runtime('org.springframework.boot:spring-boot-devtools')

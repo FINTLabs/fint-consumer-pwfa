@@ -1,3 +1,2 @@
-springfox:
- title: 'Play-with-FINT-adapter'
+fint:
  version: '@version@'
