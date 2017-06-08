@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @CrossOrigin
@@ -62,6 +63,17 @@ public class AdminController {
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand().toUri();
             return ResponseEntity.created(location).build();
+        }
+    }
+
+    @GetMapping("/organization/generateOrgId")
+    public ResponseEntity generateOrganization() {
+        String orgId = UUID.randomUUID().toString();
+        ResponseEntity responseEntity = registerOrganization(orgId);
+        if (responseEntity.getStatusCode() == HttpStatus.CREATED) {
+            return new ResponseEntity<>(orgId, responseEntity.getHeaders(), HttpStatus.OK);
+        } else {
+            return responseEntity;
         }
     }
 }
