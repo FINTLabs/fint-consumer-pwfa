@@ -62,6 +62,7 @@ class AdminControllerSpec extends MockMvcSpecification {
         then:
         1 * fintEvents.sendDownstream('system', _ as Event)
         response.andExpect(status().isOk())
+                .andExpect(jsonPath('$').isString())
     }
 
     def "POST new orgId, return bad request if orgId is already registered"() {

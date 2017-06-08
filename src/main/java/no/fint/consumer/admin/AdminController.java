@@ -70,10 +70,6 @@ public class AdminController {
     public ResponseEntity generateOrganization() {
         String orgId = UUID.randomUUID().toString();
         ResponseEntity responseEntity = registerOrganization(orgId);
-        if (responseEntity.getStatusCode() == HttpStatus.CREATED) {
-            return new ResponseEntity<>(orgId, responseEntity.getHeaders(), HttpStatus.OK);
-        } else {
-            return responseEntity;
-        }
+        return new ResponseEntity<>(orgId, responseEntity.getHeaders(), HttpStatus.OK);
     }
 }
