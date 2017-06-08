@@ -5,6 +5,7 @@ import io.swagger.annotations.*;
 import no.fint.audit.EnableFintAudit;
 import no.fint.events.annotations.EnableFintEvents;
 import no.fint.relations.annotations.EnableFintRelations;
+import no.fint.springfox.EnableSpringfoxExtension;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -18,6 +19,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
                 properties = {@ExtensionProperty(name = "url", value = "/images/logo.png")}
         )}
 ))
+@EnableSpringfoxExtension
 @SwaggerDefinition(externalDocs = @ExternalDocs(value = "Go to the API list", url = "/api"))
 @SpringBootApplication
 public class Application {
