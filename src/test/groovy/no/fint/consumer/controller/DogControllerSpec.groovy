@@ -2,6 +2,7 @@ package no.fint.consumer.controller
 
 import no.fint.consumer.event.Actions
 import no.fint.event.model.Event
+import no.fint.event.model.HeaderConstants
 import no.fint.events.FintEvents
 import no.fint.model.relation.FintResource
 import no.fint.pwfa.model.Dog
@@ -36,8 +37,8 @@ class DogControllerSpec extends MockMvcSpecification {
     def "Get all dogs"() {
         when:
         def response = mockMvc.perform(get('/dogs')
-                .header(Constants.HEADER_ORGID, 'mock.no')
-                .header(Constants.HEADER_CLIENT, 'test')
+                .header(HeaderConstants.ORG_ID, 'mock.no')
+                .header(HeaderConstants.CLIENT, 'test')
         )
 
         then:
@@ -50,8 +51,8 @@ class DogControllerSpec extends MockMvcSpecification {
     def "Get dog"() {
         when:
         def response = mockMvc.perform(get('/dogs/1')
-                .header(Constants.HEADER_ORGID, 'mock.no')
-                .header(Constants.HEADER_CLIENT, 'test')
+                .header(HeaderConstants.ORG_ID, 'mock.no')
+                .header(HeaderConstants.CLIENT, 'test')
         )
 
         then:
@@ -65,8 +66,8 @@ class DogControllerSpec extends MockMvcSpecification {
     def "Return status code 500 if response event is null"() {
         when:
         def response = mockMvc.perform(get('/dogs')
-                .header(Constants.HEADER_ORGID, 'mock.no')
-                .header(Constants.HEADER_CLIENT, 'test'))
+                .header(HeaderConstants.ORG_ID, 'mock.no')
+                .header(HeaderConstants.CLIENT, 'test'))
 
         then:
         1 * tempQueue.poll(1, TimeUnit.MINUTES) >> null

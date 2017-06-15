@@ -1,9 +1,9 @@
 package no.fint.consumer.admin
 
-import no.fint.consumer.controller.Constants
 import no.fint.consumer.event.ConsumerEventUtil
 import no.fint.event.model.DefaultActions
 import no.fint.event.model.Event
+import no.fint.event.model.HeaderConstants
 import no.fint.events.FintEvents
 import no.fint.test.utils.MockMvcSpecification
 import org.springframework.http.HttpHeaders
@@ -25,7 +25,7 @@ class AdminControllerSpec extends MockMvcSpecification {
 
     def "Check response on healthcheck"() {
         when:
-        def response = mockMvc.perform(get("/admin/health").header(Constants.HEADER_ORGID, "mock.no").header(Constants.HEADER_CLIENT, "mock"))
+        def response = mockMvc.perform(get("/admin/health").header(HeaderConstants.ORG_ID, "mock.no").header(HeaderConstants.CLIENT, "mock"))
 
         then:
         1 * consumerEventUtil.healthCheck(_ as Event) >> Optional.of(new Event(action: DefaultActions.HEALTH.name()))
@@ -36,7 +36,7 @@ class AdminControllerSpec extends MockMvcSpecification {
 
     def "Check response on healthcheck is empty"() {
         when:
-        def response = mockMvc.perform(get("/admin/health").header(Constants.HEADER_ORGID, "mock.no").header(Constants.HEADER_CLIENT, "mock"))
+        def response = mockMvc.perform(get("/admin/health").header(HeaderConstants.ORG_ID, "mock.no").header(HeaderConstants.CLIENT, "mock"))
 
         then:
         1 * consumerEventUtil.healthCheck(_ as Event) >> Optional.empty()

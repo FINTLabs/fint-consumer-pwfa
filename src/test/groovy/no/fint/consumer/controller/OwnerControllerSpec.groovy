@@ -2,6 +2,7 @@ package no.fint.consumer.controller
 
 import no.fint.consumer.event.Actions
 import no.fint.event.model.Event
+import no.fint.event.model.HeaderConstants
 import no.fint.events.FintEvents
 import no.fint.model.relation.FintResource
 import no.fint.pwfa.model.Owner
@@ -34,8 +35,8 @@ class OwnerControllerSpec extends MockMvcSpecification {
     def "Get all owners"() {
         when:
         def response = mockMvc.perform(get('/owners')
-                .header(Constants.HEADER_ORGID, 'rogfk.no')
-                .header(Constants.HEADER_CLIENT, 'test'))
+                .header(HeaderConstants.ORG_ID, 'rogfk.no')
+                .header(HeaderConstants.CLIENT, 'test'))
 
 
         then:
@@ -48,8 +49,8 @@ class OwnerControllerSpec extends MockMvcSpecification {
     def "Get owner"() {
         when:
         def response = mockMvc.perform(get('/owners/1')
-                .header(Constants.HEADER_ORGID, 'rogfk.no')
-                .header(Constants.HEADER_CLIENT, 'test'))
+                .header(HeaderConstants.ORG_ID, 'rogfk.no')
+                .header(HeaderConstants.CLIENT, 'test'))
 
         then:
         1 * fintEvents.sendDownstream('rogfk.no', _ as Event)
@@ -61,8 +62,8 @@ class OwnerControllerSpec extends MockMvcSpecification {
     def "Return status code 500 if response event is null"() {
         when:
         def response = mockMvc.perform(get('/owners')
-                .header(Constants.HEADER_ORGID, 'rogfk.no')
-                .header(Constants.HEADER_CLIENT, 'test'))
+                .header(HeaderConstants.ORG_ID, 'rogfk.no')
+                .header(HeaderConstants.CLIENT, 'test'))
 
 
         then:
