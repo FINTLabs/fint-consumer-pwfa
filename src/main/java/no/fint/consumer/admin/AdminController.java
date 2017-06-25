@@ -9,6 +9,7 @@ import no.fint.event.model.DefaultActions;
 import no.fint.event.model.Event;
 import no.fint.event.model.HeaderConstants;
 import no.fint.event.model.health.Health;
+import no.fint.event.model.health.HealthStatus;
 import no.fint.events.FintEvents;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,12 +42,12 @@ public class AdminController {
     public ResponseEntity healthCheck(@RequestHeader(HeaderConstants.ORG_ID) String orgId,
                                       @RequestHeader(HeaderConstants.CLIENT) String client) {
         Event<Health> event = new Event<>(orgId, Constants.SOURCE, DefaultActions.HEALTH, client);
-        event.addData(new Health(Constants.CLIENT, "Sent from consumer"));
+        event.addData(new Health(Constants.CLIENT, HealthStatus.SENT_FROM_CONSUMER_TO_PROVIDER));
         Optional<Event<Health>> health = consumerEventUtil.healthCheck(event);
 
         if (health.isPresent()) {
             Event<Health> receivedHealth = health.get();
-            receivedHealth.addData(new Health(Constants.CLIENT, "Received in consumer"));
+            receivedHealth.addData(new Health(Constants.CLIENT, HealthStatus.RECEIVED_IN_CONSUMER_FROM_PROVIDER));
             return ResponseEntity.ok(receivedHealth);
         } else {
             event.setMessage("No response from adapter");
