@@ -8,12 +8,14 @@ import no.fint.model.relation.FintResource
 import no.fint.pwfa.model.Owner
 import no.fint.test.utils.MockMvcSpecification
 import org.redisson.api.RBlockingQueue
+import org.springframework.http.ResponseEntity
 import org.springframework.test.web.servlet.MockMvc
 
 import java.util.concurrent.TimeUnit
 
 class OwnerControllerSpec extends MockMvcSpecification {
     private OwnerController controller
+    private OwnerAssembler assembler
     private FintEvents fintEvents
     private RBlockingQueue queue
     private MockMvc mockMvc
@@ -25,7 +27,8 @@ class OwnerControllerSpec extends MockMvcSpecification {
         fintEvents = Mock(FintEvents) {
             getTempQueue(_ as String) >> queue
         }
-        controller = new OwnerController(fintEvents: fintEvents)
+        assembler = Mock(OwnerAssembler)
+        controller = new OwnerController(fintEvents: fintEvents, assembler: assembler)
         mockMvc = standaloneSetup(controller)
 
         event = new Event('mock.no', 'test', Actions.GET_ALL_OWNERS.name(), 'test')
@@ -42,6 +45,7 @@ class OwnerControllerSpec extends MockMvcSpecification {
         then:
         1 * fintEvents.sendDownstream('rogfk.no', _ as Event)
         1 * queue.poll(1, TimeUnit.MINUTES) >> event
+        1 * assembler.resources(_ as List<FintResource>) >> ResponseEntity.ok(event.data)
         response.andExpect(status().isOk())
                 .andExpect(jsonPath('$[0].resource.name').value(equalTo('Ole')))
     }
@@ -55,8 +59,9 @@ class OwnerControllerSpec extends MockMvcSpecification {
         then:
         1 * fintEvents.sendDownstream('rogfk.no', _ as Event)
         1 * queue.poll(1, TimeUnit.MINUTES) >> event
+        1 * assembler.resource(_ as FintResource) >> ResponseEntity.ok(event.data[0])
         response.andExpect(status().isOk())
-                .andExpect(jsonPath('$[0].resource.name').value(equalTo('Ole')))
+                .andExpect(jsonPath('$.resource.name').value(equalTo('Ole')))
     }
 
     def "Return status code 500 if response event is null"() {

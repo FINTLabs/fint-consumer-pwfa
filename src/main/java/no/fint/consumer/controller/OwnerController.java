@@ -9,8 +9,6 @@ import no.fint.event.model.HeaderConstants;
 import no.fint.events.FintEvents;
 import no.fint.model.relation.FintResource;
 import no.fint.pwfa.model.Owner;
-import no.fint.relations.annotations.FintRelations;
-import no.fint.relations.annotations.FintSelf;
 import org.redisson.api.RBlockingQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +20,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @CrossOrigin
-@FintSelf(type = Owner.class, property = "id")
 @RestController
 @RequestMapping(value = "/owners", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class OwnerController {
@@ -33,7 +30,9 @@ public class OwnerController {
     @Autowired
     private FintEvents fintEvents;
 
-    @FintRelations
+    @Autowired
+    private OwnerAssembler assembler;
+
     @GetMapping
     public ResponseEntity getAllOwners(@RequestHeader(HeaderConstants.ORG_ID) String orgId,
                                        @RequestHeader(HeaderConstants.CLIENT) String client) throws InterruptedException {
@@ -42,10 +41,14 @@ public class OwnerController {
 
         RBlockingQueue<Event<FintResource>> tempQueue = fintEvents.getTempQueue(EventListener.TEMP_QUEUE_PREFIX + event.getCorrId());
         Event<FintResource> receivedEvent = tempQueue.poll(1, TimeUnit.MINUTES);
-        return handleResponse(receivedEvent);
+        if (receivedEvent == null) {
+            return getErrorResponse();
+        } else {
+            List<FintResource<Owner>> fintResources = EventUtil.convertEventData(receivedEvent, ownerTypeReference);
+            return assembler.resources(fintResources);
+        }
     }
 
-    @FintRelations
     @GetMapping("/{id}")
     public ResponseEntity getOwner(@PathVariable String id,
                                    @RequestHeader(HeaderConstants.ORG_ID) String orgId,
@@ -56,16 +59,15 @@ public class OwnerController {
 
         RBlockingQueue<Event<FintResource>> tempQueue = fintEvents.getTempQueue(EventListener.TEMP_QUEUE_PREFIX + event.getCorrId());
         Event<FintResource> receivedEvent = tempQueue.poll(1, TimeUnit.MINUTES);
-        return handleResponse(receivedEvent);
-    }
-
-    private ResponseEntity handleResponse(Event<FintResource> receivedEvent) {
         if (receivedEvent == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("The request timed out before a response was received from the adapter");
+            return getErrorResponse();
         } else {
             List<FintResource<Owner>> fintResources = EventUtil.convertEventData(receivedEvent, ownerTypeReference);
-            return ResponseEntity.ok(fintResources);
+            return assembler.resource(fintResources.get(0));
         }
     }
 
+    private ResponseEntity getErrorResponse() {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("The request timed out before a response was received from the adapter");
+    }
 }

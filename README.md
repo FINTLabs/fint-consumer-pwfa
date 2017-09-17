@@ -5,7 +5,7 @@
 
 ## Run consumer locally
 
-Health check is implemeneted in test-provider:  
+Health check is implemented in test-provider:  
 ```bash
 npm start --prefix test-provider
 ```

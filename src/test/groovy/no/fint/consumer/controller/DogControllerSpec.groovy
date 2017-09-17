@@ -8,6 +8,7 @@ import no.fint.model.relation.FintResource
 import no.fint.pwfa.model.Dog
 import no.fint.test.utils.MockMvcSpecification
 import org.redisson.api.RBlockingQueue
+import org.springframework.http.ResponseEntity
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -15,7 +16,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import java.util.concurrent.TimeUnit
 
 class DogControllerSpec extends MockMvcSpecification {
-    private DogController consumerController
+    private DogController controller
+    private DogAssembler assembler
     private FintEvents fintEvents
     private RBlockingQueue<Event<FintResource>> tempQueue
     private MockMvc mockMvc
@@ -27,8 +29,9 @@ class DogControllerSpec extends MockMvcSpecification {
         fintEvents = Mock(FintEvents) {
             getTempQueue(_ as String) >> tempQueue
         }
-        consumerController = new DogController(fintEvents: fintEvents)
-        mockMvc = MockMvcBuilders.standaloneSetup(consumerController).build()
+        assembler = Mock(DogAssembler)
+        controller = new DogController(fintEvents: fintEvents, assembler: assembler)
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
 
         event = new Event('mock.no', 'test', Actions.GET_ALL_DOGS.name(), 'test')
         event.setData([FintResource.with(new Dog('12345', 'Lykke', 'Springer'))])
@@ -44,6 +47,7 @@ class DogControllerSpec extends MockMvcSpecification {
         then:
         1 * fintEvents.sendDownstream('mock.no', _ as Event)
         1 * tempQueue.poll(1, TimeUnit.MINUTES) >> event
+        1 * assembler.resources(_ as List<FintResource>) >> ResponseEntity.ok(event.data)
         response.andExpect(status().isOk())
                 .andExpect(jsonPath('$[0].resource.breed').value(equalTo('Springer')))
     }
@@ -58,9 +62,10 @@ class DogControllerSpec extends MockMvcSpecification {
         then:
         1 * fintEvents.sendDownstream('mock.no', _ as Event)
         1 * tempQueue.poll(1, TimeUnit.MINUTES) >> event
+        1 * assembler.resource(_ as FintResource) >> ResponseEntity.ok(event.data[0])
         response.andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(jsonPath('$[0].resource.breed').value(equalTo('Springer')))
+                .andExpect(jsonPath('$.resource.breed').value(equalTo('Springer')))
     }
 
     def "Return status code 500 if response event is null"() {

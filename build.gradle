@@ -50,14 +50,14 @@ repositories {
 }
 
 dependencies {
-    compile('no.fint:fint-relation-model:0.0.22')
-    compile('no.fint:fint-event-model:1.0.0')
-    compile('no.fint:fint-pwfa-model:0.0.2')
+    compile('no.fint:fint-relation-model:1.0.7')
+    compile('no.fint:fint-event-model:2.0.0')
+    compile('no.fint:fint-pwfa-model:0.0.3')
 
-    compile('no.fint:fint-relations:1.0.0')
+    compile('no.fint:fint-relations:1.1.7')
     compile('no.fint:fint-events:1.0.0')
-    compile('no.fint:fint-audit-mongo-plugin:1.0.0')
-    compile('no.fint:fint-cache:1.0.0')
+    compile('no.fint:fint-audit-mongo-plugin:1.1.1')
+    compile('no.fint:fint-cache:1.4.0')
     
     compile('org.projectlombok:lombok')
     compile("com.github.springfox.loader:springfox-loader:${springfoxLoaderVersion}")
