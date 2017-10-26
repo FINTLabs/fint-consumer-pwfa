@@ -12,7 +12,7 @@ services:
     fint.events.component: pwfa
     fint.events.env: pwfa
     fint.events.redisson.addresses: "redis://redis:6379"
-    fint.audit.mongo.hostname: fint-mongodb
+    fint.audit.mongo.hostname: ucp.rogfk.no
     fint.audit.mongo.databasename: fint-audit-pwfa
    deploy:
     replicas: 1
@@ -21,9 +21,6 @@ services:
      delay: 5s
      max_attempts: 3
      window: 120s
-   networks:
-    - fint_shared
-    - fint_pwfa
    depends_on:
     - redis
 
@@ -39,7 +36,7 @@ services:
     fint.events.component: pwfa
     fint.events.env: pwfa
     fint.events.redisson.addresses: "redis://redis:6379"
-    fint.audit.mongo.hostname: fint-mongodb
+    fint.audit.mongo.hostname: ucp.rogfk.no
     fint.audit.mongo.databasename: fint-audit-pwfa
    deploy:
     replicas: 1
@@ -48,9 +45,6 @@ services:
      delay: 5s
      max_attempts: 3
      window: 120s
-   networks:
-    - fint_shared
-    - fint_pwfa
    depends_on:
     - redis
     - provider
@@ -66,12 +60,3 @@ services:
       delay: 5s
       max_attempts: 3
       window: 120s
-    networks:
-     - fint_pwfa
-
-networks:
- fint_pwfa:
-  driver: overlay
-  external: false
- fint_shared:
-  external: true
