@@ -50,7 +50,7 @@ services:
     - provider
 
   redis:
-    image: redis:3.0.7-alpine
+    image: redis:3.2.8-alpine
     environment:
       TZ: Europe/Oslo
     deploy:
