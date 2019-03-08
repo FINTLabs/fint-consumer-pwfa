@@ -1,0 +1,164 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pwfa-nginx
+data:
+  nginx.conf: |
+    server {
+      listen 80 default_server;
+      listen [::]:80 default_server;
+
+      server_name play-with-fint-adapter.felleskomponent.no;
+
+      location / {
+          proxy_pass http://localhost:8080;
+          proxy_set_header Connection '';
+          proxy_http_version 1.1;
+          chunked_transfer_encoding off;
+          proxy_buffering off;
+          proxy_cache off;
+      }
+      
+      location /provider/ {
+          proxy_pass http://localhost:8081;
+          proxy_set_header Connection '';
+          proxy_http_version 1.1;
+          chunked_transfer_encoding off;
+          proxy_buffering off;
+          proxy_cache off;
+      }
+    }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  labels:
+    io.kompose.service: pwfa-consumer
+  name: pwfa-consumer
+spec:
+  ports:
+  - name: "80"
+    port: 80
+  type: LoadBalancer
+  selector:
+    io.kompose.service: pwfa-consumer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: pwfa-consumer
+  name: pwfa-consumer
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  revisionHistoryLimit: 0
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      io.kompose.service: pwfa-consumer
+  template:
+    metadata:
+      labels:
+        io.kompose.service: pwfa-consumer
+    spec:
+      hostname: consumer
+      subdomain: pwfa
+      restartPolicy: Always
+      volumes:
+        - name: pwfa-nginx
+          configMap:
+            name: pwfa-nginx
+      containers:
+      - name: pwfa-consumer
+        image: fintlabs.azurecr.io/pwfa-consumer:2
+        env:
+        - name: TZ
+          value: Europe/Oslo
+        - name: fint.audit.test-mode
+          value: "true"
+        - name: fint.events.component
+          value: pwfa
+        - name: fint.events.env
+          value: pwfa
+        - name: fint.events.orgIds
+          value: pwfa.no
+        - name: fint.events.redisson.addresses
+          value: redis://localhost:6379
+        - name: server.context-path
+          value: /
+        - name: springfox.title
+          value: Play-With-FINT-Adapter Consumer
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: "2"
+            memory: "2Gi"
+          requests:
+            cpu: "250m"
+            memory: "128Mi"
+      - name: pwfa-provider
+        image: fintlabs.azurecr.io/provider:1.0.0
+        env:
+        - name: TZ
+          value: Europe/Oslo
+        - name: fint.audit.test-mode
+          value: "true"
+        - name: fint.events.component
+          value: pwfa
+        - name: fint.events.env
+          value: pwfa
+        - name: fint.events.orgIds
+          value: pwfa.no
+        - name: fint.events.redisson.addresses
+          value: redis://localhost:6379
+        - name: server.context-path
+          value: /provider
+        - name: server.port
+          value: "8081"
+        - name: springfox.title
+          value: Play-With-FINT-Adapter Provider
+        ports:
+        - containerPort: 8081
+        resources:
+          limits:
+            cpu: "2"
+            memory: "2Gi"
+          requests:
+            cpu: "250m"
+            memory: "128Mi"
+      - name: pwfa-redis
+        image: redis:3.2.8-alpine
+        env:
+        - name: TZ
+          value: Europe/Oslo
+        ports:
+        - containerPort: 6379
+        resources:
+          limits:
+            cpu: "2"
+            memory: "128Mi"
+          requests:
+            cpu: "250m"
+            memory: "128Mi"
+      - name: nginx
+        image: nginx:1.15
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "128Mi"
+        env:
+        - name: TZ
+          value: Europe/Oslo
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - mountPath: /etc/nginx/conf.d
+            name: pwfa-nginx
