@@ -77,10 +77,12 @@ spec:
             name: pwfa-nginx
       containers:
       - name: pwfa-consumer
-        image: fintlabs.azurecr.io/pwfa-consumer:2
+        image: fintlabs.azurecr.io/consumer-pwfa:build.8
         env:
         - name: TZ
           value: Europe/Oslo
+        - name: fint.relations.default-base-url
+          value: https://play-with-fint-adapter.felleskomponent.no
         - name: fint.audit.test-mode
           value: "true"
         - name: fint.events.component
@@ -89,8 +91,8 @@ spec:
           value: pwfa
         - name: fint.events.orgIds
           value: pwfa.no
-        - name: fint.events.redisson.addresses
-          value: redis://localhost:6379
+        - name: fint.hazelcast.members
+          value: localhost
         - name: server.context-path
           value: /
         - name: springfox.title
@@ -105,7 +107,7 @@ spec:
             cpu: "250m"
             memory: "128Mi"
       - name: pwfa-provider
-        image: fintlabs.azurecr.io/provider:1.0.0
+        image: fintlabs.azurecr.io/provider:2.2.0-rc-1
         env:
         - name: TZ
           value: Europe/Oslo
@@ -117,8 +119,8 @@ spec:
           value: pwfa
         - name: fint.events.orgIds
           value: pwfa.no
-        - name: fint.events.redisson.addresses
-          value: redis://localhost:6379
+        - name: fint.hazelcast.members
+          value: localhost
         - name: server.context-path
           value: /provider
         - name: server.port
@@ -131,20 +133,6 @@ spec:
           limits:
             cpu: "2"
             memory: "2Gi"
-          requests:
-            cpu: "250m"
-            memory: "128Mi"
-      - name: pwfa-redis
-        image: redis:3.2.8-alpine
-        env:
-        - name: TZ
-          value: Europe/Oslo
-        ports:
-        - containerPort: 6379
-        resources:
-          limits:
-            cpu: "2"
-            memory: "128Mi"
           requests:
             cpu: "250m"
             memory: "128Mi"

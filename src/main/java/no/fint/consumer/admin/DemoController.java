@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.UUID;
 
 @CrossOrigin
@@ -43,6 +44,6 @@ public class DemoController {
     public ResponseEntity generateOrganization() {
         String orgId = UUID.randomUUID().toString();
         ResponseEntity responseEntity = registerOrganization(orgId);
-        return new ResponseEntity<>(orgId, responseEntity.getHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(Collections.singletonMap("orgId", orgId), responseEntity.getHeaders(), HttpStatus.OK);
     }
 }
