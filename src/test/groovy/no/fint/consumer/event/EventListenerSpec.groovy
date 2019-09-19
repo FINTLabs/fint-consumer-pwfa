@@ -1,31 +1,30 @@
 package no.fint.consumer.event
 
-import no.fint.event.model.DefaultActions
+import no.fint.audit.FintAuditService
+import no.fint.consumer.status.StatusCache
 import no.fint.event.model.Event
-import no.fint.events.FintEvents
-import org.redisson.api.RBlockingQueue
+import no.fint.event.model.ResponseStatus
+import no.fint.event.model.Status
 import spock.lang.Specification
 
 class EventListenerSpec extends Specification {
     private EventListener eventListener
-    private FintEvents fintEvents
-    private RBlockingQueue queue
+    private StatusCache statusCache
+    private FintAuditService fintAuditService
 
     void setup() {
-        queue = Mock(RBlockingQueue)
-        fintEvents = Mock(FintEvents)
-        eventListener = new EventListener(fintEvents: fintEvents)
+        fintAuditService = Mock()
+        statusCache = Mock()
+        eventListener = new EventListener(cacheServices: [], statusCache: statusCache, fintAuditService: fintAuditService)
     }
 
-    def "Receive event"() {
-        given:
-        def event = new Event('rogfk.no', 'test', DefaultActions.HEALTH.name(), 'test')
-
+    def "No exception is thrown when receiving event"() {
         when:
-        eventListener.receive(event)
+        eventListener.accept(new Event(corrId: '123', responseStatus: ResponseStatus.ACCEPTED))
 
         then:
-        1 * fintEvents.getTempQueue(EventListener.TEMP_QUEUE_PREFIX + event.corrId) >> queue
-        1 * queue.offer(event)
+        noExceptionThrown()
+        1 * statusCache.containsKey(_ as String) >> false
+        1 * fintAuditService.audit(_ as Event, _ as Status)
     }
 }

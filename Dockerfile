@@ -1,9 +1,12 @@
-FROM gradle:4.0-jdk8-alpine as builder
+FROM gradle:4.10.3-jdk8-alpine as builder
 USER root
 COPY . .
-RUN gradle --no-daemon build
+ARG apiVersion
+RUN gradle --no-daemon -PapiVersion=${apiVersion} build
 
-FROM openjdk:8-jre-alpine
-RUN apk add --update tzdata && rm -rf /var/cache/apk/*
-COPY --from=builder /home/gradle/build/libs/fint-pwfa-consumer-*.jar /data/app.jar
-CMD ["java", "-jar", "/data/app.jar"]
+FROM gcr.io/distroless/java:8
+ENV JAVA_TOOL_OPTIONS -XX:+ExitOnOutOfMemoryError
+COPY --from=builder /home/gradle/build/deps/external/*.jar /data/
+COPY --from=builder /home/gradle/build/deps/fint/*.jar /data/
+COPY --from=builder /home/gradle/build/libs/fint-consumer-pwfa-*.jar /data/fint-consumer-pwfa.jar
+CMD ["/data/fint-consumer-pwfa.jar"]

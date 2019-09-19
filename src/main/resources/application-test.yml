@@ -1,13 +1,23 @@
+spring:
+ application:
+  name: fint-consumer-pwfa
+
 fint:
  events:
+  orgIds: mock.no
   test-mode: true
-  orgIds: pwfa.no
   queue-endpoint-enabled: true
 
  audit:
   test-mode: true
 
  relations:
-   force-https: false
+  force-https: false
+  default-base-url: /
 
-link-mapper-base-url: http://localhost:8080
+ hazelcast:
+  members: localhost
+
+server:
+ context-path: ""
+ port: 8080
