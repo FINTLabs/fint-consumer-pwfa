@@ -1,12 +1,14 @@
 package no.fint.consumer
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import no.fint.consumer.config.Config
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
 
-@SpringBootTest(classes = Config)
+@SpringBootTest(classes = [Config, ObjectMapper])
 class ConfigIntegrationSpec extends Specification {
 
     @Qualifier("linkMapper")
