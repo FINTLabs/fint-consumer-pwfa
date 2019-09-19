@@ -77,7 +77,7 @@ spec:
             name: pwfa-nginx
       containers:
       - name: pwfa-consumer
-        image: fintlabs.azurecr.io/consumer-pwfa:build.8
+        image: fintlabs.azurecr.io/consumer-pwfa:build.12
         env:
         - name: TZ
           value: Europe/Oslo
@@ -85,12 +85,6 @@ spec:
           value: https://play-with-fint-adapter.felleskomponent.no
         - name: fint.audit.test-mode
           value: "true"
-        - name: fint.events.component
-          value: pwfa
-        - name: fint.events.env
-          value: pwfa
-        - name: fint.events.orgIds
-          value: pwfa.no
         - name: fint.hazelcast.members
           value: localhost
         - name: server.context-path
@@ -113,12 +107,6 @@ spec:
           value: Europe/Oslo
         - name: fint.audit.test-mode
           value: "true"
-        - name: fint.events.component
-          value: pwfa
-        - name: fint.events.env
-          value: pwfa
-        - name: fint.events.orgIds
-          value: pwfa.no
         - name: fint.hazelcast.members
           value: localhost
         - name: server.context-path
