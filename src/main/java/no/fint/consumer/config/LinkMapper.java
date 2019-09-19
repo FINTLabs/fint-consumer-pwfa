@@ -5,7 +5,6 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 
 import no.fint.model.pwfa.pwfa.*;
-import no.fint.model.felles.*;
 
 public class LinkMapper {
 
