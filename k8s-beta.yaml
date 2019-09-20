@@ -77,7 +77,7 @@ spec:
             name: pwfa-nginx
       containers:
       - name: pwfa-consumer
-        image: fintlabs.azurecr.io/consumer-pwfa:build.12
+        image: fintlabs.azurecr.io/consumer-pwfa:build.15
         env:
         - name: TZ
           value: Europe/Oslo
